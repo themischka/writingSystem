@@ -7,13 +7,15 @@ import streamlit as st
 # celsius = st.number_input("Enter temp in Celsius: ")
 # fahrenheit = (celsius * 9/5) + 32
 # st.write(f"{celsius}°C is equal to {fahrenheit}°F")
+st.write("this is a mad-lib maker.")
+st.write("enter text into the following prompts, then press finish to see your mad-lib.")
 
 nomIn = st.text_input("Give me a name, for example: Milana")
 if nomIn:
     st.write("you wrote: (", nomIn, ") for your name")
 nameIN = nomIn
 
-plIn = st.text_input("Give me a place, for example: Italy")
+plIn = st.text_input("Give me a city, for example: Vancouver")
 if plIn:
     st.write("you wrote: (", plIn, ") for your place")
 placeIN = plIn
