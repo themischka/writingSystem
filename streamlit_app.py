@@ -1,5 +1,11 @@
 import streamlit as st
 
+# imports for search system
+import chromadb
+client = chromadb.PersistentClient(path="./my_db")
+
+disThres = float(0.64)
+talk = True
 
 # start with Celsius converter
 # make a mad lib kind of thing
@@ -46,3 +52,49 @@ if st.button("finish"):
         nameIN, "with the bill"
     )
     st.balloons()
+
+st.write(
+    "currently testing a new part where the madlibs made will be added to the dict"
+    " and you can search about prev madlibs."
+)
+
+
+# making a collection (a table of data) holds all the knowledge
+# funcs: add(), query()
+collection = client.get_or_create_collection("animals")
+sentences = [
+    "Good dogs, like Snoopy are the best.",
+    "Snoopy is a good dog.",
+    "Dogs are not good",
+    "The smoke is strong today."
+    # "Милана хочет есть.",
+    # "Milana wants to eat.",
+    # "Милана думала что там есть яблока здесь.",
+    # "там нет яблоко здешь."
+    # "니 생일은 언재?",
+    # "내 생일은 어제였"
+]
+
+# unique tags
+tags = ["1", "2", "3", "4"]
+collection.add(documents=sentences, ids=tags)
+
+while talk:
+    # queries
+    question = st.text_input("Ask a question, or say /bye to quit: ")
+    if question == "/bye":
+        talk = False
+    else:
+        result = collection.query(query_texts=question, n_results=2)
+
+        # results of distance aren't floats, so they cannot be compared
+
+        # prints the sentences that are most similar to the query
+        st.write(result["documents"])
+        # prints the ids, the tag that was assigned to the sentences
+        st.write(result["ids"])
+        # prints the "distance" between the query and the sentences in the database
+        st.write(result["distances"])
+        # if result["distances"] > disThres:
+        #     print("the results may not be accurate, I may be hallucinating")
+
