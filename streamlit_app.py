@@ -10,7 +10,7 @@ import streamlit as st
 
 nomIn = st.text_input("Give me a name, for example: Milana")
 if nomIn:
-    st.write("you wrote: (", nomIn, ") for your noun")
+    st.write("you wrote: (", nomIn, ") for your name")
 nameIN = nomIn
 
 plIn = st.text_input("Give me a place, for example: Italy")
